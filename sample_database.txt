@@ -1,0 +1,243 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.6
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 02, 2014 at 03:20 AM
+-- Server version: 5.5.33
+-- PHP Version: 5.5.3
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `banking_system`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admins`
+--
+
+CREATE TABLE `admins` (
+  `id` int(11) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `password` char(128) NOT NULL,
+  `salt` char(128) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `admins`
+--
+
+INSERT INTO `admins` (`id`, `email`, `username`, `password`, `salt`) VALUES
+(1, 'super@man.com', 'superman', 'f78914cd4022a48c3ce1aa604387b0f054cd621d60c6aea17d34da4354ceb12a2b8beceaf7ac4b57adb67b176622961f2fdd79e9fdcae3b418bb1eee3cc9dad6', '66092cb4a185d1ad73488be7a00ec436a51ff5237caf05ebd7bed3e67a1197ce26a809aaa3ac2bc7df25073bd2e1a694c15e833cdecf82a6054ceb7c3c629383');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `checking_account`
+--
+
+CREATE TABLE `checking_account` (
+  `acc_no` int(6) NOT NULL DEFAULT '0',
+  `balance` int(11) NOT NULL DEFAULT '0',
+  `acc_holder` int(11) NOT NULL,
+  `locked` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`acc_no`),
+  KEY `acc_holder` (`acc_holder`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `checking_account`
+--
+
+INSERT INTO `checking_account` (`acc_no`, `balance`, `acc_holder`, `locked`) VALUES
+(345678, 910, 3, 0),
+(376590, 59990, 2, 0),
+(382671, 9780, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `login_attempts`
+--
+
+CREATE TABLE `login_attempts` (
+  `user_id` int(11) NOT NULL,
+  `time` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `login_attempts`
+--
+
+INSERT INTO `login_attempts` (`user_id`, `time`) VALUES
+(1, '1382317421'),
+(1, '1382317568'),
+(1, '1382317669'),
+(2, '1382410803'),
+(2, '1382410825'),
+(1, '1382410837'),
+(1, '1382410859'),
+(1, '1384059564'),
+(1, '1384232255'),
+(1, '1384286541'),
+(1, '1384287209');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `members`
+--
+
+CREATE TABLE `members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` char(128) NOT NULL,
+  `salt` char(128) NOT NULL,
+  `s_question1` int(11) NOT NULL,
+  `s_answer1` varchar(20) NOT NULL,
+  `s_question2` int(11) NOT NULL,
+  `s_answer2` varchar(20) NOT NULL,
+  `s_question3` int(11) NOT NULL,
+  `s_answer3` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `s_question1` (`s_question1`),
+  KEY `s_question2` (`s_question2`,`s_question3`),
+  KEY `s_question3` (`s_question3`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `members`
+--
+
+INSERT INTO `members` (`id`, `username`, `email`, `password`, `salt`, `s_question1`, `s_answer1`, `s_question2`, `s_answer2`, `s_question3`, `s_answer3`) VALUES
+(1, 'Batman', 'bat@man.com', 'f78914cd4022a48c3ce1aa604387b0f054cd621d60c6aea17d34da4354ceb12a2b8beceaf7ac4b57adb67b176622961f2fdd79e9fdcae3b418bb1eee3cc9dad6', '66092cb4a185d1ad73488be7a00ec436a51ff5237caf05ebd7bed3e67a1197ce26a809aaa3ac2bc7df25073bd2e1a694c15e833cdecf82a6054ceb7c3c629383', 101, 'h-town', 102, 'johnson', 103, 'big red'),
+(2, 'Ironman', 'iron@man.com', 'f78914cd4022a48c3ce1aa604387b0f054cd621d60c6aea17d34da4354ceb12a2b8beceaf7ac4b57adb67b176622961f2fdd79e9fdcae3b418bb1eee3cc9dad6', '66092cb4a185d1ad73488be7a00ec436a51ff5237caf05ebd7bed3e67a1197ce26a809aaa3ac2bc7df25073bd2e1a694c15e833cdecf82a6054ceb7c3c629383', 104, 'New York', 105, 'White', 106, 'Super Man'),
+(3, 'testuser', 'test@user.com', 'f78914cd4022a48c3ce1aa604387b0f054cd621d60c6aea17d34da4354ceb12a2b8beceaf7ac4b57adb67b176622961f2fdd79e9fdcae3b418bb1eee3cc9dad6', '66092cb4a185d1ad73488be7a00ec436a51ff5237caf05ebd7bed3e67a1197ce26a809aaa3ac2bc7df25073bd2e1a694c15e833cdecf82a6054ceb7c3c629383', 101, 'Lubbock', 102, 'Smith', 103, 'Bob');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `member_profile`
+--
+
+CREATE TABLE `member_profile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(20) NOT NULL,
+  `address` text NOT NULL,
+  `city` varchar(20) NOT NULL,
+  `state` varchar(20) NOT NULL,
+  `zipcode` int(5) NOT NULL,
+  `phone` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `member_profile`
+--
+
+INSERT INTO `member_profile` (`id`, `first_name`, `last_name`, `address`, `city`, `state`, `zipcode`, `phone`) VALUES
+(1, 'Jonny', 'Johnson', '1113 sample street', 'Sometown', 'Nowhere', 63912, '1234567890'),
+(2, 'Tony', 'Stark', '1 RedRaider Drive', 'Miami', 'Florida', 79400, '1234567890'),
+(3, 'Test', 'User', '802 test street', 'Austin', 'Texas', 12345, '1234567890');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `saving_account`
+--
+
+CREATE TABLE `saving_account` (
+  `acc_no` int(6) NOT NULL DEFAULT '0',
+  `balance` int(11) NOT NULL DEFAULT '0',
+  `acc_holder` int(11) NOT NULL,
+  `locked` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`acc_no`),
+  KEY `acc_holder` (`acc_holder`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `saving_account`
+--
+
+INSERT INTO `saving_account` (`acc_no`, `balance`, `acc_holder`, `locked`) VALUES
+(209876, 17980, 3, 1),
+(219840, 200010, 2, 0),
+(234567, 1040, 1, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `security_questions`
+--
+
+CREATE TABLE `security_questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(60) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=107 ;
+
+--
+-- Dumping data for table `security_questions`
+--
+
+INSERT INTO `security_questions` (`id`, `question`) VALUES
+(101, 'What town/city were you born in?'),
+(102, 'What is your mother''s maiden name?'),
+(103, 'What is your pet''s name?'),
+(104, 'In what city/town was your first job?'),
+(105, 'What was the color of your first car?'),
+(106, 'What is your childhood best friend''s first name?');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transfers`
+--
+
+CREATE TABLE `transfers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `from_account` int(6) NOT NULL,
+  `to_account` int(6) NOT NULL,
+  `amount` int(11) NOT NULL DEFAULT '0',
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `checking_account`
+--
+ALTER TABLE `checking_account`
+  ADD CONSTRAINT `checking_account_ibfk_1` FOREIGN KEY (`acc_holder`) REFERENCES `members` (`id`);
+
+--
+-- Constraints for table `members`
+--
+ALTER TABLE `members`
+  ADD CONSTRAINT `members_ibfk_1` FOREIGN KEY (`s_question1`) REFERENCES `security_questions` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `members_ibfk_2` FOREIGN KEY (`s_question2`) REFERENCES `security_questions` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `members_ibfk_3` FOREIGN KEY (`s_question3`) REFERENCES `security_questions` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `member_profile`
+--
+ALTER TABLE `member_profile`
+  ADD CONSTRAINT `member_profile_ibfk_1` FOREIGN KEY (`id`) REFERENCES `members` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `saving_account`
+--
+ALTER TABLE `saving_account`
+  ADD CONSTRAINT `saving_account_ibfk_1` FOREIGN KEY (`acc_holder`) REFERENCES `members` (`id`);
